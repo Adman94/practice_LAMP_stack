@@ -1,0 +1,51 @@
+<?php
+
+$email= $_POST['email'];
+$password = $_POST['password'];
+
+$user = 'root';
+//$pass = 'password123';
+$pass='password';
+//$db   = 'Multi_Tenant_SaaS';
+$db = 'multi_tenant_saas';
+//$host = 'multi-tenant-saas.c10vz13ys4mz.us-west-2.rds.amazonaws.com';
+$host= '127.0.0.1';
+$port = 3306;
+$link = mysqli_init();
+
+$connection = $link->real_connect(
+  $host,
+  $user,
+  $pass,
+  $db
+);
+
+ if (!$connection) {
+  die('Database connection failed.');
+  $link->close();
+}
+else
+{
+  
+  //echo'<p>Connection was susscessfull</p>';
+ 
+  $query  = "SELECT id FROM GRADER_LOGIN WHERE email='$email' AND password='$password'";
+  
+  $result = mysqli_query($link, $query);
+  $rowcount=mysqli_num_rows($result);
+  if($rowcount==1)
+  {
+ 
+   header("Location: ./index.php");
+   die();
+  }
+  else
+  {
+     header("Location: ./index.html");
+     die();
+  }
+
+  $link->close();
+}
+
+?>
